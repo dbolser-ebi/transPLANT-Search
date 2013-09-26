@@ -1,0 +1,56 @@
+
+# 0) Find a suitable location
+
+
+
+# 1) Download and unpack Solr
+
+### The version of Solr we're currently using!
+solr_version=4.4.0
+
+mirror=http://apache.mirrors.timporter.net/lucene/solr
+
+wget $mirror/$solr_version/solr-$solr_version.tgz
+
+tar zxfv solr-$solr_version.tgz 
+
+
+
+# 2) Add the transPLANT 'cores' from GIT
+
+## This is bulkier than it needs to be (i.e. we only need a few xml
+## files), but it's easier to just cram it all in the repo without
+## worrying
+
+cd solr-$solr_version
+
+git clone https://scm.ebi.ac.uk/git/eg-transplant-solr TransPLANT
+
+
+
+# 3) Fire up the server on this config...
+
+cd TransPLANT
+
+java -Djetty.port=1234 -jar start.jar
+
+
+
+# 4) Later, load data into the index (the transPLANT partner data hasn't
+#    been checked into Git)
+
+## After checking that the URL parameter is pointing to the right
+## port of the right server...
+
+cd /nfs/production/panda/ensemblgenomes/development/dbolser/TransPLANT
+
+source NOTES.INDEX | tee index.log
+
+## Check the status lines in the index (status should = 0)
+
+
+
+# 5) Put this server into production by editing the search config of the
+#    transPLANT Drupal site...
+
+## Dan can do this...
