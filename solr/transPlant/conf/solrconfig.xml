@@ -546,7 +546,7 @@
       <str name="q.alt">*:*</str>
 
       <!-- Add our shard servers... -->
-      <str name="shards">localhost:8983/solr/transPlant-IPK,localhost:8983/solr/transPlant-EBI,localhost:8983/solr/transPlant-PAS,localhost:8983/solr/transPlant-MIPS,localhost:8983/solr/transPlant-UGRI</str>
+      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-PAS,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-UGRI</str>
       <!-- Print a summary of results per shard -->
       <str name="shards.info">true</str>
       <!-- Continue if one or more shards are down -->
