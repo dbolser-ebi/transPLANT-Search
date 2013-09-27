@@ -42,9 +42,7 @@ java -Djetty.port=1234 -jar start.jar
 ## After checking that the URL parameter is pointing to the right
 ## port of the right server...
 
-cd /nfs/production/panda/ensemblgenomes/development/dbolser/TransPLANT
-
-source NOTES.INDEX | tee index.log
+time source NOTES.INDEX | tee index.log
 
 ## Check the status lines in the index (status should = 0)
 

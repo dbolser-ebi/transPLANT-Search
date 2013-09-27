@@ -1,15 +1,29 @@
 
 ## INDEXING...
 
+# Quit the script if *anything* fails!
+set -o errexit # set -e
+
+# Quit the script if we forget to initalize a variatble!
+set -o nounset # set -u
+
+
+
 ## PICK YOUR SERVER (Solr version 4+)
 
 #url=http://ebi1-249:8983/solr          # V4.0
 #url=http://pweb-2b:8045/solr           # V4.0-BETA
 url=http://ebi3-173.ebi.ac.uk:1234/solr # V4.4
+url=http://localhost:1234/solr          # V4.4
 
 ## Define some options common to all dumps, and add softCommit so that
 ## we don't have to call commit every so often...
 common_opt="separator=%09&softCommit=true"
+
+
+## POINT AT THE INDEXES
+index_dir=Data/Indexes
+index_dir=/mnt/vbox-shared/TransPLANT_Indexes
 
 
 
@@ -19,76 +33,77 @@ common_opt="separator=%09&softCommit=true"
 
 
 
-# ## INDEX EBI:
-# core=transPlant-EBI
+## INDEX EBI:
+core=transPlant-EBI
 
-# for i in Data/Indexes/EBI/transplant2.dump.new; do
-#     echo $i
+for i in ${index_dir}/EBI/transplant2.dump.new; do
+    echo $i
     
-#     OPT=${common_opt}
-#     OPT="${OPT}&fieldnames=id,obj_type,species,obj_desc,src_url"
-#     OPT="${OPT}&literal.provider=Ensembl+Plants"
+    OPT=${common_opt}
+    OPT="${OPT}&fieldnames=id,obj_type,species,obj_desc,src_url"
+    OPT="${OPT}&literal.provider=Ensembl+Plants"
     
-#     ## This fails (when provider = "EBI,Ensembl+Plants")
-#     #OPT="${OPT}&f.provider.split=true"
-#     #OPT="${OPT}&f.provider.separator=,"
+    ## This fails (when provider = "EBI,Ensembl+Plants")
+    #OPT="${OPT}&f.provider.split=true"
+    #OPT="${OPT}&f.provider.separator=,"
     
-#     ## Nasty remapping...
-#     #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=tRNA_pseudogene:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=miRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=ncRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=snoRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=rRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=snRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=SRP_RNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=antisense:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=misc_RNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=P_RNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=RNase_MRP_RNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=tmRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
-#     #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
+    ## Nasty remapping...
+    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=tRNA_pseudogene:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=miRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=ncRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=snoRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=rRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=snRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=SRP_RNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=antisense:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=misc_RNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=P_RNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=RNase_MRP_RNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=tmRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
+    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
     
-#     ## Run it
-#     time \
-#         curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
-#         -H 'Content-type:application/csv'
+    ## Run it
+    time \
+        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
+        -H 'Content-type:application/csv'
 
-# done
-# echo; echo
+done
+echo; echo
 
 
-# ## INDEX IPK
-# core=transPlant-IPK
 
-# for i in Data/Indexes/IPK/*.tsv.new; do
-#     echo $i
+## INDEX IPK
+core=transPlant-IPK
+
+for i in ${index_dir}/IPK/*.tsv.new; do
+    echo $i
     
-#     OPT=$common_opt
-#     OPT="${OPT}&header=true"
-#     OPT="${OPT}&trim=true"
-#     OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    OPT=$common_opt
+    OPT="${OPT}&header=true"
+    OPT="${OPT}&trim=true"
+    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
     
-#     ## Split the species
-#     OPT="${OPT}&f.species.split=true"
-#     OPT="${OPT}&f.species.separator=,"
+    ## Split the species
+    OPT="${OPT}&f.species.split=true"
+    OPT="${OPT}&f.species.separator=,"
     
-#     ## Run it
-#     time \
-#         curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
-#         -H 'Content-type:application/csv'
+    ## Run it
+    time \
+        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
+        -H 'Content-type:application/csv'
     
-# done
-# echo; echo
+done
+echo; echo
 
 
 
 ## INDEX MIPS:
 core=transPlant-MIPS
 
-for i in Data/Indexes/MIPS/*.txt; do
+for i in ${index_dir}/MIPS/*.txt; do
     echo $i
     
     OPT=$common_opt
@@ -107,7 +122,7 @@ echo; echo
 ## INDEX PAS:
 core=transPlant-PAS
 
-for i in Data/Indexes/PAS/*.tab; do
+for i in ${index_dir}/PAS/*.tab; do
     echo $i
     
     OPT=$common_opt
@@ -127,7 +142,7 @@ echo; echo
 ## INDEX UGRI:
 core=transPlant-UGRI
 
-for i in Data/Indexes/UGRI/*.csv; do
+for i in ${index_dir}/UGRI/*.csv; do
     echo $i
     
     OPT=$common_opt
