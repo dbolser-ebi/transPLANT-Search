@@ -162,6 +162,32 @@ echo DONE
 
 
 
+## Finally, we have to stick at least some data into the 'hub' index,
+## so that it reports it's fields correctly...
+
+## We use the PAS data, as it's small...
+
+core=transPlant
+
+for i in ${index_dir}/PAS/*.tab; do
+    echo $i
+    
+    OPT=$common_opt
+    OPT="${OPT}&header=true"
+    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    
+    ## Run it
+    time \
+        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
+        -H 'Content-type:application/csv'
+    
+done
+echo; echo
+
+
+
+
+
 ## Wuh?
 set +e
 set +u
