@@ -13,7 +13,7 @@ set -o nounset # set -u
 
 #url=http://ebi1-249:8983/solr          # V4.0
 #url=http://pweb-2b:8045/solr           # V4.0-BETA
-url=http://ebi3-173.ebi.ac.uk:1234/solr # V4.4
+url=http://ebi3-204:1234/solr           # V4.4
 url=http://localhost:1234/solr          # V4.4
 
 ## Define some options common to all dumps, and add softCommit so that
@@ -24,6 +24,7 @@ common_opt="separator=%09&softCommit=true"
 ## POINT AT THE INDEXES
 index_dir=Data/Indexes
 index_dir=/mnt/vbox-shared/TransPLANT_Indexes
+index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 
 
