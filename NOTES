@@ -32,7 +32,10 @@ git clone https://scm.ebi.ac.uk/git/eg-transplant-solr TransPLANT
 
 cd TransPLANT
 
-java -Djetty.port=1234 -jar start.jar
+java -jar start.jar \
+    -Djetty.port=1234 \
+    -Dhttp.proxyHost=wwwcache.ebi.ac.uk \
+    -Dhttp.proxyPort=3128
 
 
 
@@ -44,7 +47,7 @@ java -Djetty.port=1234 -jar start.jar
 
 time source NOTES.INDEX | tee index.log
 
-## Check the status lines in the index (status should = 0)
+## Check the status lines in the index.log (status should = 0)
 
 
 
