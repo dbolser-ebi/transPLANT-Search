@@ -11,10 +11,13 @@ set -o nounset # set -u
 
 ## PICK YOUR SERVER (Solr version 4+)
 
+#url=http://localhost:1234/solr         # V4.4
+
 #url=http://ebi1-249:8983/solr          # V4.0
+#url=http://ebi3-204:1234/solr          # V4.4
+
 #url=http://pweb-2b:8045/solr           # V4.0-BETA
-url=http://ebi3-204:1234/solr           # V4.4
-url=http://localhost:1234/solr          # V4.4
+url=http://pweb-2b:8046/solr           # V4.4
 
 ## Define some options common to all dumps, and add softCommit so that
 ## we don't have to call commit every so often...
@@ -22,8 +25,8 @@ common_opt="separator=%09&softCommit=true"
 
 
 ## POINT AT THE INDEXES
-index_dir=Data/Indexes
-index_dir=/mnt/vbox-shared/TransPLANT_Indexes
+#index_dir=Data/Indexes
+#index_dir=/mnt/vbox-shared/TransPLANT_Indexes
 index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 
@@ -31,6 +34,9 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 ## FIRST DELETE?
 
 # ...
+
+# The simple way to delete an index is (typically) just:
+# rm -rf solr/<core>/data/
 
 
 
@@ -166,11 +172,11 @@ echo DONE
 ## Finally, we have to stick at least some data into the 'hub' index,
 ## so that it reports it's fields correctly...
 
-## We use the PAS data, as it's small...
+## We use something similar to the PAS data...
 
 core=transPlant
 
-for i in ${index_dir}/PAS/*.tab; do
+for i in ${index_dir}/null_entry.tsv; do
     echo $i
     
     OPT=$common_opt
