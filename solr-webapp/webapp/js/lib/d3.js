@@ -761,7 +761,6 @@ function d3_formatPrefix(d, i) {
  *
  * Open source under the BSD License.
  *
- * Copyright 2001 Robert Penner
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
