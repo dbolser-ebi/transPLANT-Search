@@ -16,8 +16,8 @@ set -o nounset # set -u
 #url=http://ebi1-249:8983/solr          # V4.0
 #url=http://ebi3-204:1234/solr          # V4.4
 
-#url=http://pweb-2b:8045/solr           # V4.0-BETA
-url=http://pweb-2b:8046/solr           # V4.4
+#url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
+url=http://pweb-2b:8046/solr           # V4.4 (STAGE)
 
 ## Define some options common to all dumps, and add softCommit so that
 ## we don't have to call commit every so often...
@@ -36,14 +36,14 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 # ...
 
 # The simple way to delete an index is (typically) just:
-# rm -rf solr/<core>/data/
+# rm -rf solr/${core}/data/
 
 
 
 ## INDEX EBI:
 core=transPlant-EBI
 
-for i in ${index_dir}/EBI/transplant2.dump.new; do
+for i in ${index_dir}/EBI/transplant*-fix.tsv; do
     echo $i
     
     OPT=${common_opt}
