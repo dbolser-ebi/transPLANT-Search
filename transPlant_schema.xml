@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<schema name="transplant" version="1.5">
+
+  <!-- Lets start with field types... -->
+  
+  <!-- The StrField type is not analyzed, but indexed/stored verbatim.
+       It supports docValues but in that case the field needs to be
+       single-valued and either required or have a default value.
+  -->
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+  
+  <!-- Default numeric field types. For faster range queries, consider
+       the tint/tfloat/tlong/tdouble types.
+  -->
+  <fieldType name=   "int" class="solr.TrieIntField"   precisionStep="0" positionIncrementGap="0"/>
+  <fieldType name= "float" class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+  
+  <!-- Numeric field types that index each value at various levels of
+       precision to accelerate range queries when the number of values
+       between the range endpoints is large.
+       
+       Smaller precisionStep values (specified in bits) will lead to
+       more tokens indexed per value, slightly larger index size, and
+       faster range queries.  A precisionStep of 0 disables indexing
+       at different precision levels.
+  -->
+  <fieldType name=  "tint" class="solr.TrieIntField"   precisionStep="8" positionIncrementGap="0"/>
+  <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+  
+  <!-- The format for this date field is of the form
+       '1995-12-31T23:59:59Z'. For faster range queries, consider the
+       tdate type.
+  -->
+  <fieldType name=  "date" class="solr.TrieDateField"  precisionStep="0"/>
+  
+  <!-- A Trie based date field for faster date range queries and date
+       faceting.
+  -->
+  <fieldType name= "tdate" class="solr.TrieDateField"  precisionStep="6" positionIncrementGap="0"/>
+  
+  
+  
+  <!-- Fields for text I'm not convinced that we need anything
+       particularly fancy here ... -->
+  
+  <!-- A text field that only splits on whitespace for exact matching
+       of words
+  -->
+  <fieldType name="text_ws" class="solr.TextField"                        positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.WhitespaceTokenizerFactory"/>
+    </analyzer>
+  </fieldType>
+  
+  
+  <!-- A general text field that has reasonable, generic
+       cross-language defaults: it tokenizes with StandardTokenizer,
+       removes stop words from case-insensitive "stopwords.txt", and
+       down cases. At query time only, it also applies synonyms.
+  -->
+  <fieldType name="text_general" class="solr.TextField"                   positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
+      <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+
+
+  <!-- A text field with defaults appropriate for English: it
+       tokenizes with StandardTokenizer, removes English stop words
+       (lang/stopwords_en.txt), down cases, protects words from
+       protwords.txt, and finally applies Porter's stemming. The query
+       time analyzer also applies synonyms from synonyms.txt.
+  -->
+  <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.StopFilterFactory" ignoreCase="true" words="lang/stopwords_en.txt"/>
+      <filter class="solr.SynonymFilterFactory" synonyms="synonyms.txt" ignoreCase="true" expand="true"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <filter class="solr.KeywordMarkerFilterFactory" protected="protwords.txt"/>
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+  </fieldType>
+
+
+
+
+</schema>
+
+solr.TrieDateField solr.BinaryField solr.IntField solr.LongField
+solr.FloatField solr.DoubleField solr.DateField solr.TextField
+solr.StrField solr.PointType solr.LatLonType
+solr.SpatialRecursivePrefixTreeFieldType solr.CurrencyField
