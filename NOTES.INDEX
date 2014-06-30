@@ -17,7 +17,13 @@ set -o nounset # set -u
 #url=http://ebi3-204:1234/solr          # V4.4
 
 #url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
-url=http://pweb-2b:8046/solr           # V4.4 (STAGE)
+url=http://pweb-2b:8046/solr            # V4.4 (STAGE/LIVE)
+
+#url=http://ves-ebi-60:8045/solr        # V4.7 (NEW LIVE)
+
+#url=http://dbolser-laptop.windows.ebi.ac.uk:1234/solr # V4.8 (DEATH)
+
+
 
 ## Define some options common to all dumps, and add softCommit so that
 ## we don't have to call commit every so often...
@@ -85,7 +91,9 @@ echo; echo
 ## INDEX IPK
 core=transPlant-IPK
 
-for i in ${index_dir}/IPK/*.tsv.new; do
+for i in \
+    ${index_dir}/IPK/*.tsv.new \
+    ${index_dir}/IPK/optimas_dw_export_101013.tsv; do
     echo $i
     
     OPT=$common_opt
@@ -149,7 +157,8 @@ echo; echo
 ## INDEX UGRI:
 core=transPlant-UGRI
 
-for i in ${index_dir}/UGRI/*.csv; do
+#for i in ${index_dir}/UGRI/Transplant_*.csv; do
+for i in ${index_dir}/UGRI/solr_dump.tsv; do
     echo $i
     
     OPT=$common_opt
