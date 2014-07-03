@@ -56,24 +56,9 @@
 
     <!-- numeric field types that can be sorted, but are not optimized for range queries -->
     <fieldType name="integer" class="solr.TrieIntField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
-    <fieldType name="float" class="solr.TrieFloatField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
-    <fieldType name="long" class="solr.TrieLongField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name= "float" class="solr.TrieFloatField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name=  "long" class="solr.TrieLongField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
     <fieldType name="double" class="solr.TrieDoubleField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
-
-    <!--
-      Note:
-      These should only be used for compatibility with existing indexes (created with older Solr versions)
-      or if "sortMissingFirst" or "sortMissingLast" functionality is needed. Use Trie based fields instead.
-
-      Numeric field types that manipulate the value into
-      a string value that isn't human-readable in its internal form,
-      but with a lexicographic ordering the same as the numeric ordering,
-      so that range queries work correctly.
-    -->
-    <fieldType name="sint" class="solr.TrieIntField" sortMissingLast="true" omitNorms="true"/>
-    <fieldType name="slong" class="solr.TrieFloatField" sortMissingLast="true" omitNorms="true"/>
-    <fieldType name="sfloat" class="solr.TrieLongField" sortMissingLast="true" omitNorms="true"/>
-    <fieldType name="sdouble" class="solr.TrieDoubleField" sortMissingLast="true" omitNorms="true"/>
 
     <!--
      Numeric field types that index each value at various levels of precision
@@ -162,9 +147,6 @@
       <analyzer type="index">
         <charFilter class="solr.MappingCharFilterFactory" mapping="mapping-ISOLatin1Accent.txt"/>
         <tokenizer class="solr.WhitespaceTokenizerFactory"/>
-        <!-- in this example, we will only use synonyms at query time
-        <filter class="solr.SynonymFilterFactory" synonyms="index_synonyms.txt" ignoreCase="true" expand="false"/>
-        -->
         <!-- Case insensitive stop word removal.
           add enablePositionIncrements=true in both the index and query
           analyzers to leave a 'gap' for more accurate phrase queries.
