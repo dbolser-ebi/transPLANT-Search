@@ -98,17 +98,44 @@
   
   
   
-  <!-- Now we difine the fields themselves... -->
-
+  <!-- Now we define the fields themselves... -->
+  
   <!-- Fields are based on the transPLANT integrated search schema
        v0.1 document -->
-
+  
+  <!-- NOTE: I haven't used docValues (available in Solr since 4.2)
+       for the fields that we'll be faceting on, althought this could
+       provide a performace advantage in the most recent versions of
+       Solr. -->
+  
+  <!-- NOTE: All fields are copied into the main 'text' field (below)
+       so that free text searches for their values will return
+       meaningfull results, regardless of their use as facets. -->
+  
+  <!-- TODO: What do we need to store? i.e. if a field is being used
+       only for faceting, do we need to store it's values or just
+       simply index them? For now I'm going to just index and see
+       where that gets us... -->
+  
   <fields>
-    <field name="entry_type"    type="string" indexed="true"/>
-    <field name="database_name" type="string" indexed="true"/>
-    <field name="id"            type="string" indexed="true"/>
-    <field name="version"       type="string" indexed="true"/>
-    <field name="description"   type="text_generic" indexed="true"/>
+    
+    <!-- Although the entry_type is specified in the schema document
+         as an enum, there is no technical need to implement it as
+         such in Solr. -->
+    <field name="entry_type"    type="string" indexed="true" stored="false" required="true" default="Database entry"/>
+    
+    <!-- Together these three fields define the unique identifier for
+         a given entry, being hashed together using Lookup3Signature
+         into the 'id' field.  See the 'dedupe'
+         updateRequestProcessorChain in solrconfig.xml. -->
+    <field name="database_name" type="string" indexed="true" stored="false" required="true"/>
+    <field name="dbid"          type="string" indexed="true" stored="true"  required="true"/>
+    <field name="version"       type="string" indexed="true" stored="true"  required="false"/>
+    
+    <field name="id"            type="string" indexed="true" stored="false" required="true"/>
+    
+    
+    <field name="description"   type="text_generic" indexed="true" stored="true" />
     <field name="url"           type="string" indexed="true"/>
     <field name="species"       type="string" indexed="true"/>
     <field name="sample"        type="string" indexed="true"/>
