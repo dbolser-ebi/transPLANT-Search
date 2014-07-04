@@ -35,6 +35,7 @@ THE SOFTWARE.
  * Licensed under the MIT:
  * http://www.opensource.org/licenses/mit-license.php
  *
+ * Copyright (c) 2008-2011, Ryan McGeary (ryanonjavascript -[at]- mcgeary [*dot*] org)
  */
 
 (function($) {

@@ -26,6 +26,7 @@ THE SOFTWARE.
  * jsTree 1.0-rc1
  * http://jstree.com/
  *
+ * Copyright (c) 2010 Ivan Bozhanov (vakata.com)
  *
  * Dual licensed under the MIT and GPL licenses (same as jQuery):
  *   http://www.opensource.org/licenses/mit-license.php
