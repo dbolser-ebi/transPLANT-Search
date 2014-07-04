@@ -1007,11 +1007,9 @@
          updateRequestProcessorChains that can be used by name 
          on each Update Request
       -->
-    <!--
-       <lst name="defaults">
-         <str name="update.chain">dedupe</str>
-       </lst>
-       -->
+    <lst name="defaults">
+      <str name="update.chain">dedupe</str>
+    </lst>
   </requestHandler>
 
   <!-- for back compat with clients using /update/json and /update/csv -->  
@@ -1651,6 +1649,7 @@
        http://wiki.apache.org/solr/UpdateRequestProcessor
 
     --> 
+
   <!-- Deduplication
 
        An example dedup update processor that creates the "id" field
@@ -1658,22 +1657,22 @@
        example has overwriteDupes set to false since we are using the
        id field as the signatureField and Solr will maintain
        uniqueness based on that anyway.  
-       
+
+       See: https://wiki.apache.org/solr/Deduplication
     -->
-  <!--
+
      <updateRequestProcessorChain name="dedupe">
        <processor class="solr.processor.SignatureUpdateProcessorFactory">
          <bool name="enabled">true</bool>
          <str name="signatureField">id</str>
          <bool name="overwriteDupes">false</bool>
-         <str name="fields">name,features,cat</str>
+         <str name="fields">database_name,dbid,version</str>
          <str name="signatureClass">solr.processor.Lookup3Signature</str>
        </processor>
        <processor class="solr.LogUpdateProcessorFactory" />
        <processor class="solr.RunUpdateProcessorFactory" />
      </updateRequestProcessorChain>
-    -->
-  
+     
   <!-- Language identification
 
        This example update chain identifies the language of the incoming
