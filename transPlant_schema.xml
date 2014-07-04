@@ -99,9 +99,20 @@
   
   
   <!-- Now we difine the fields themselves... -->
-  
+
+  <!-- Fields are based on the transPLANT integrated search schema
+       v0.1 document -->
+
   <fields>
-    ...
+    <field name="entry_type"    type="string" indexed="true"/>
+    <field name="database_name" type="string" indexed="true"/>
+    <field name="id"            type="string" indexed="true"/>
+    <field name="version"       type="string" indexed="true"/>
+    <field name="description"   type="text_generic" indexed="true"/>
+    <field name="url"           type="string" indexed="true"/>
+    <field name="species"       type="string" indexed="true"/>
+    <field name="sample"        type="string" indexed="true"/>
+
   </fields>
   
   <!-- Field to use to determine and enforce document
