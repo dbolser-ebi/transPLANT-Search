@@ -1,6 +1,165 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <schema name="transplant" version="1.5">
+  
+  <!-- Now we define the fields themselves... -->
+  
+  <!-- Fields are based on the transPLANT integrated search schema
+       v0.1 document -->
+  
+  <!-- NOTE: I haven't used docValues (available in Solr since 4.2)
+       for the fields that we'll be faceting on, althought this could
+       provide a performace advantage in the most recent versions of
+       Solr. -->
+  
+  <!-- NOTE: All fields are copied into the main description
+       (text_general) field (below) so that free text searches for
+       their values will return meaningfull results, regardless of
+       their use as facets. -->
+  
+  <!-- TODO: What do we need to store? i.e. if a field is being used
+       only for faceting, do we need to store it's values or just
+       simply index them? For now I'm going to just index and see
+       where that gets us...
+       
+       Seems this rule applies just for facet fields, other fields
+       should be stored if you want the value back, even if they are
+       being indexed...
+       
+       So:
+         * used for faceting = true/false,
+         * copied to description = false/true
+       
+       -->
+  
+  <fields>
+    
+    <!-- Although the entry_type is specified in the schema document
+         as an enum, there is no technical need to implement it as
+         such in Solr. -->
+    <field name="entry_type"    type="string" indexed="true"  stored="false" required="true"  />
+    
+    <!-- Together these three fields define the unique identifier for
+         a given entry, being hashed together using Lookup3Signature
+         into the 'id' field. See the 'dedupe' update request
+         processor in solrconfig.xml. -->
+    <field name="database_name" type="string" indexed="true"  stored="false" required="true"  />
+    <field name="db_id"         type="string" indexed="false" stored="true"  required="true"  />
+    <field name="db_version"    type="int"    indexed="false" stored="true"  required="false" />
+    
+    <field name="id"            type="string" indexed="true"  stored="false" required="true"  />
+    
+    <!-- This is the most important field from the free text search
+         point of view. The field is stored for retreival and
+         highlighting, and is defined as multiValued because several
+         other fields are copied here to allow both faceting and free
+         text search. We could add termVectors and termPositions for
+         highlighting! -->
+    <field name="description"   type="text_general" multiValued="true"
+                                              indexed="true"  stored="true"  required="true"  />
+    
+    <field name="url"           type="string" indexed="false" stored="true"  required="true"  />
+    
+    <field name="species"       type="int"    indexed="true"  stored="false" required="false" />
+    <field name="sample"        type="string" indexed="true"  stored="false" required="false" />
+    
+    
+    
+    <!-- Now we define the fields that are used by the other data
+         types that we want to index... -->
+    
+    <!-- Sequence feature -->
+    
+    <!-- The conceptual schema has all fields associated with a
+         sequence feature as mandatory (if the document represents a
+         sequence feature). However, not all documents are sequence
+         features, so I can't make this field 'required' by
+         solr... The requirement will have to be enforced client side
+         I guess? -->
+    
+    <!-- Another hierarchical facet field to think about... -->
+    <field name="feature_type"     type="string" indexed="true"  stored="false" required="false" />
+    <field name="sequence_id"      type="string" indexed="false" stored="true"  required="false" />
+    <field name="sequence_version" type="int"    indexed="false" stored="true"  required="false" />
+    <field name="start_position"   type="tint"   indexed="true"  stored="true"  required="false" />
+    <field name="end_position"     type="tint"   indexed="true"  stored="true"  required="false" />
+    
+    
+    
+    <!-- Genetic marker -->
+    
+    <field name="map"              type="string" indexed="true"  stored="false"  required="false" />
+    <field name="map_position"     type="tfloat" indexed="true"  stored="false"  required="false" />
+    
+    <!-- Links back to another db_id -->
+    <field name="db_id_xref"       type="string" indexed="true"  stored="true"   required="false" />
+    
+    
+    
+    <!-- Accession -->
+    
+    <field name="authority"        type="string" indexed="true"  stored="false"  required="false" />
+    
+    
+    
+    <!-- Phenotype -->
+    
+    <field name="trait"            type="string" indexed="false"  stored="true"  required="false" multiValued="true" />
+    <field name="trait_id"         type="string" indexed="true"   stored="false" required="false" multiValued="true" />
+    <field name="environment"      type="string" indexed="false"  stored="true"  required="false" multiValued="true" />
+    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true" />
+    <field name="statistic"        type="string" indexed="false"  stored="true"  required="false" />
+    <field name="unit"             type="string" indexed="false"  stored="true"  required="false" />
+    
+    
+    
+    <!-- QTL or GWAS result -->
+    <field name="genotype"         type="string" indexed="true"   stored="false" required="false" />
+    <field name="transformation"   type="string" indexed="true"   stored="false" required="false" />
+    <field name="method"           type="string" indexed="true"   stored="false" required="false" />
+    
+    
+    
+    <!-- Links back to another db_id -->
+    <!-- <field name="db_id_xref"       type="string" indexed="true"  stored="true"   required="false" /> -->
+    
+    
+    
+  </fields>
+  
+  <!-- Field to use to determine and enforce document
+       uniqueness. Unless this field is marked with required="false",
+       it will be a required field. -->
+  <uniqueKey>id</uniqueKey>
+  
+  <!-- Copy (almost) everything into the description field for free
+       text searches -->
+  <copyField source="entry_type"    dest="description"/>
+  <copyField source="database_name" dest="description"/>
+  <copyField source="db_id"         dest="description"/>
+  <!-- <copyField source="db_version"       dest="description"/> -->
+  <copyField source="species"       dest="description"/>
+  <copyField source="sample"        dest="description"/>
+  
+  <copyField source="feature_type"  dest="description"/>
+  <copyField source="sequence_id"   dest="description"/>
+  <!-- <copyField source="sequence_version" dest="description"/> -->
+  <!-- <copyField source="start_position"   dest="description"/> -->
+  <!-- <copyField source="end_position"     dest="description"/> -->
+  
+  <copyField source="map"           dest="description"/>
+  <!-- <copyField source="map_position"     dest="description"/> -->
+  
+  <copyField source="authority"     dest="description"/>
+  
+  <copyField source="feature_type"  dest="description"/>
+  <copyField source="feature_type"  dest="description"/>
+  <copyField source="feature_type"  dest="description"/>
+  
+
+
+
+
 
   <!-- Lets start with field types... -->
   
@@ -98,62 +257,6 @@
   
   
   
-  <!-- Now we define the fields themselves... -->
-  
-  <!-- Fields are based on the transPLANT integrated search schema
-       v0.1 document -->
-  
-  <!-- NOTE: I haven't used docValues (available in Solr since 4.2)
-       for the fields that we'll be faceting on, althought this could
-       provide a performace advantage in the most recent versions of
-       Solr. -->
-  
-  <!-- NOTE: All fields are copied into the main 'text' field (below)
-       so that free text searches for their values will return
-       meaningfull results, regardless of their use as facets. -->
-  
-  <!-- TODO: What do we need to store? i.e. if a field is being used
-       only for faceting, do we need to store it's values or just
-       simply index them? For now I'm going to just index and see
-       where that gets us... -->
-  
-  <fields>
-    
-    <!-- Although the entry_type is specified in the schema document
-         as an enum, there is no technical need to implement it as
-         such in Solr. -->
-    <field name="entry_type"    type="string" indexed="true" stored="false" required="true" default="Database entry"/>
-    
-    <!-- Together these three fields define the unique identifier for
-         a given entry, being hashed together using Lookup3Signature
-         into the 'id' field.  See the 'dedupe'
-         updateRequestProcessorChain in solrconfig.xml. -->
-    <field name="database_name" type="string" indexed="true" stored="false" required="true"/>
-    <field name="dbid"          type="string" indexed="true" stored="true"  required="true"/>
-    <field name="version"       type="string" indexed="true" stored="true"  required="false"/>
-    
-    <field name="id"            type="string" indexed="true" stored="false" required="true"/>
-    
-    
-    <field name="description"   type="text_generic" indexed="true" stored="true" />
-    <field name="url"           type="string" indexed="true"/>
-    <field name="species"       type="string" indexed="true"/>
-    <field name="sample"        type="string" indexed="true"/>
-
-  </fields>
-  
-  <!-- Field to use to determine and enforce document
-       uniqueness. Unless this field is marked with required="false",
-       it will be a required field. -->
-  <uniqueKey>id</uniqueKey>
-
-
-  <copyField>...
 
 
 </schema>
-
-solr.TrieDateField solr.BinaryField solr.IntField solr.LongField
-solr.FloatField solr.DoubleField solr.DateField solr.TextField
-solr.StrField solr.PointType solr.LatLonType
-solr.SpatialRecursivePrefixTreeFieldType solr.CurrencyField
