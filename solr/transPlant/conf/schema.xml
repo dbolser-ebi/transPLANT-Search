@@ -33,7 +33,10 @@
        -->
   
   <fields>
-    
+
+    <!-- This field is required for Solr to work -->
+    <field name="_version_" type="long" indexed="true" stored="true"/>
+
     <!-- Although the entry_type is specified in the schema document
          as an enum, there is no technical need to implement it as
          such in Solr. -->
