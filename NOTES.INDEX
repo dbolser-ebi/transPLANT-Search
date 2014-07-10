@@ -207,3 +207,22 @@ echo; echo
 ## Wuh?
 set +e
 set +u
+
+
+
+return
+
+## Here are some 'notes' we don't want to execute (hence the return
+## command above).
+
+url=http://ebi-021.ebi.ac.uk:8983/solr
+core=transPlant
+
+common_opt="separator=%09&softCommit=true"
+OPT=${common_opt}
+OPT="${OPT}&fieldnames=db_id,entry_type,species,description,url"
+OPT="${OPT}&literal.database_name=Ensembl+Plants"
+
+curl "${url}/${core}/update?${OPT}" \
+    --data-binary @"/tmp/transplant.20131010-fix.tsv" \
+    -H 'Content-type:application/csv'
