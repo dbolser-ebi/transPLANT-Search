@@ -66,19 +66,22 @@
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false" />
     
     <!-- This is the most important field from the free text search
-    <field name="description"   type="text_general" multiValued="true"
          point of view. The field is stored for retreival (and as a
          requirement for highlighting, and is defined as multiValued
          because several other fields are copied here to allow both
          faceting and free text search. We could add termVectors and
          termPositions for highlighting! -->
+    <field name="description"   type="t_gen"  indexed="true"  stored="true"  required="true"  multiValued="true" />
     
     <!-- We don't need to index this (see below) -->
     <field name="url"           type="string" indexed="false" stored="true"  required="true" />
     
     <!-- Fields used for faceting need to be indexed! -->
     <field name="species"       type="string" indexed="true"  stored="false" required="false" />
-    <field name="sample"        type="string" indexed="true"  stored="false" required="false" />
+    
+    <!-- Other text fields are also copied to description, but I think
+         need to be independently defined? -->
+    <field name="sample"        type="t_gen"  indexed="false" stored="false" required="false" />
     
     <!-- Allow multiple, generic links back to other documents. -->
     <field name="xref"          type="string" indexed="true"  stored="true"  required="false" multiValued="true" />
@@ -108,25 +111,26 @@
     
     <!-- Genetic marker -->
     
-    <field name="map"              type="string" indexed="true"  stored="false"  required="false" />
-    <field name="map_position"     type="tfloat" indexed="true"  stored="false"  required="false" />
-    
-    <!-- Links back to another db_id -->
-    <field name="db_id_xref"       type="string" indexed="true"  stored="true"   required="false" />
+    <!-- Other text fields are also copied to description, but I think
+         need to be independently defined? -->
+    <field name="map"              type="t_gen"  indexed="false" stored="false" required="false" />
+    <field name="map_position"     type="tfloat" indexed="true"  stored="false" required="false" />
     
     
     
     <!-- Accession -->
     
-    <field name="authority"        type="string" indexed="true"  stored="false"  required="false" />
+    <!-- Other text fields are also copied to description, but I think
+         need to be independently defined? -->
+    <field name="authority"        type="t_gen"  indexed="false" stored="false" required="false" />
     
     
     
     <!-- Phenotype -->
     
-    <field name="trait"            type="string" indexed="false"  stored="true"  required="false" multiValued="true" />
+    <field name="trait"            type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true" />
     <field name="trait_id"         type="string" indexed="true"   stored="false" required="false" multiValued="true" />
-    <field name="environment"      type="string" indexed="false"  stored="true"  required="false" multiValued="true" />
+    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true" />
     <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true" />
     
     <field name="statistic"        type="string" indexed="false"  stored="true"  required="false" />
@@ -270,7 +274,7 @@
          cross-language defaults: it tokenizes with StandardTokenizer,
          removes stop words from case-insensitive "stopwords.txt", and
          down cases. Synonyms are applied at query time. -->
-    <fieldType name="text_general" class="solr.TextField" positionIncrementGap="100">
+    <fieldType name="t_gen" class="solr.TextField" positionIncrementGap="100">
       <analyzer type="index">
         <tokenizer class="solr.StandardTokenizerFactory"/>
         <filter class="solr.StopFilterFactory" ignoreCase="true" words="stopwords.txt"/>
