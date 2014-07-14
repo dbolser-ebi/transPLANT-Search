@@ -1,3 +1,4 @@
+#! /usr/local/bin/bash
 
 ## INDEXING...
 
@@ -41,14 +42,17 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 # ...
 
-# The simple way to delete an index is (typically) just:
-# rm -rf solr/${core}/data/
+## The simple way to delete an index is (typically) just:
+#rm -rf solr/${core}/data/
+
+## Deleting the data directory on a runnin instance will probably fail
+## (due to NFS locks). Note, you should delete and then restart solr
+## after changing the schema for any core!
 
 
 
 ## INDEX EBI:
 core=transPlant-EBI
-rm -rf solr/${core}/data/
 
 for i in ${index_dir}/EBI/transplant*-fix.tsv; do
     echo $i
@@ -92,7 +96,6 @@ echo; echo
 
 ## INDEX IPK
 core=transPlant-IPK
-rm -rf solr/${core}/data/
 
 for i in \
     ${index_dir}/IPK/*.tsv.new \
@@ -120,7 +123,6 @@ echo; echo
 
 ## INDEX MIPS:
 core=transPlant-MIPS
-rm -rf solr/${core}/data/
 
 for i in ${index_dir}/MIPS/*.txt; do
     echo $i
@@ -140,7 +142,6 @@ echo; echo
 
 ## INDEX PAS:
 core=transPlant-PAS
-rm -rf solr/${core}/data/
 
 for i in ${index_dir}/PAS/*.tab; do
     echo $i
@@ -161,7 +162,6 @@ echo; echo
 
 ## INDEX UGRI:
 core=transPlant-UGRI
-rm -rf solr/${core}/data/
 
 #for i in ${index_dir}/UGRI/Transplant_*.csv; do
 for i in ${index_dir}/UGRI/solr_dump.tsv; do
@@ -190,7 +190,6 @@ echo DONE
 ## We use something similar to the PAS data...
 
 core=transPlant
-rm -rf solr/${core}/data/
 
 for i in ${index_dir}/null_entry.tsv; do
     echo $i
