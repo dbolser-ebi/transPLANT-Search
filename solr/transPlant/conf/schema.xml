@@ -80,6 +80,9 @@
     <field name="species"       type="string" indexed="true"  stored="false" required="false" />
     <field name="sample"        type="string" indexed="true"  stored="false" required="false" />
     
+    <!-- Allow multiple, generic links back to other documents. -->
+    <field name="xref"          type="string" indexed="true"  stored="true"  required="false" multiValued="true" />
+    
     
     
     <!-- Now we define the fields that are used by the other data
