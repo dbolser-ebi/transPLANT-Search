@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="transplant" version="v0.2-pre">
+<!-- Note the schema version attribute is for Solr -->
+
+<schema name="transplant v0.2-pre" version="1.5">
   
   <!-- Define the fields... -->
   
