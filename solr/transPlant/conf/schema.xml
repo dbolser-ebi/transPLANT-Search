@@ -2,7 +2,7 @@
 
 <schema name="transplant" version="1.5">
   
-  <!-- Now we define the fields themselves... -->
+  <!-- Define the fields... -->
   
   <!-- Fields are based on the transPLANT integrated search schema
        v0.1 document -->
@@ -38,31 +38,31 @@
     <field name="_version_" type="long" indexed="true" stored="true"/>
 
     <!-- Although the entry_type is specified in the schema document
-         as an enum, there is no technical need to implement it as
-         such in Solr. -->
-    <field name="entry_type"    type="string" indexed="true"  stored="false" required="true"  />
+         as a field of type 'enum', there is no technical need to
+         implement it as such in Solr. -->
+    <field name="entry_type" type="string"    indexed="true"  stored="false" required="true" />
     
     <!-- Together these three fields define the unique identifier for
          a given entry, being hashed together using Lookup3Signature
          into the 'id' field. See the 'dedupe' update request
          processor in solrconfig.xml. -->
-    <field name="database_name" type="string" indexed="true"  stored="false" required="true"  />
-    <field name="db_id"         type="string" indexed="false" stored="true"  required="true"  />
+    <field name="database_name" type="string" indexed="true"  stored="false" required="true" />
+    <field name="db_id"         type="string" indexed="false" stored="true"  required="true" />
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false" />
     
     <field name="id"            type="string" indexed="true"  stored="false" required="true"  />
     
     <!-- This is the most important field from the free text search
-         point of view. The field is stored for retreival and
-         highlighting, and is defined as multiValued because several
-         other fields are copied here to allow both faceting and free
-         text search. We could add termVectors and termPositions for
-         highlighting! -->
     <field name="description"   type="text_general" multiValued="true"
-                                              indexed="true"  stored="true"  required="true"  />
+         point of view. The field is stored for retreival (and as a
+         requirement for highlighting, and is defined as multiValued
+         because several other fields are copied here to allow both
+         faceting and free text search. We could add termVectors and
+         termPositions for highlighting! -->
     
     <field name="url"           type="string" indexed="false" stored="true"  required="true"  />
     
+    <!-- Fields used for faceting need to be indexed! -->
     <field name="species"       type="string" indexed="true"  stored="false" required="false" />
     <field name="sample"        type="string" indexed="true"  stored="false" required="false" />
     
@@ -73,14 +73,14 @@
     
     <!-- Sequence feature -->
     
-    <!-- The conceptual schema has all fields associated with a
-         sequence feature as mandatory (if the document represents a
-         sequence feature). However, not all documents are sequence
-         features, so I can't make this field 'required' by
-         solr... The requirement will have to be enforced client side
-         I guess? -->
+    <!-- The conceptual schema has the 'feature_type' field as
+         mandatory if the entry_type is 'sequence feature'. However,
+         not all documents are sequence features, so we cant simply
+         flag this field as 'required' by Solr. The requirement can be
+         enforced elsewhere if needed. -->
     
-    <!-- Another hierarchical facet field to think about... -->
+    <!-- Another (ontology based) hierarchical facet field to think
+         about... -->
     <field name="feature_type"     type="string" indexed="true"  stored="false" required="false" />
     <field name="sequence_id"      type="string" indexed="false" stored="true"  required="false" />
     <field name="sequence_version" type="int"    indexed="false" stored="true"  required="false" />
@@ -111,12 +111,13 @@
     <field name="trait_id"         type="string" indexed="true"   stored="false" required="false" multiValued="true" />
     <field name="environment"      type="string" indexed="false"  stored="true"  required="false" multiValued="true" />
     <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true" />
+    
     <field name="statistic"        type="string" indexed="false"  stored="true"  required="false" />
     <field name="unit"             type="string" indexed="false"  stored="true"  required="false" />
     
     
     
-    <!-- QTL or GWAS result -->
+    <!-- GWAS result -->
     <field name="genotype"         type="string" indexed="true"   stored="false" required="false" />
     <field name="transformation"   type="string" indexed="true"   stored="false" required="false" />
     <field name="method"           type="string" indexed="true"   stored="false" required="false" />
@@ -134,6 +135,29 @@
        uniqueness. Unless this field is marked with required="false",
        it will be a required field. -->
   <uniqueKey>id</uniqueKey>
+
+  <!-- Field for the QueryParser to use when an explicit fieldname is
+       absent. Specifying this here simplifes config elsewhere. -->
+  <defaultSearchField>description</defaultSearchField>
+
+  <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
+  <solrQueryParser defaultOperator="AND"/>
+
+
+
+
+
+  
+  <!-- Copy (almost) everything into the description field for
+       free-text searches -->
+  <copyField source="entry_type"      dest="description"/>
+  <copyField source="database_name"   dest="description"/>
+  <copyField source="db_id"           dest="description"/>
+  <copyField source="species"         dest="description"/>
+  <copyField source="sample"          dest="description"/>
+  
+  <copyField source="feature_type"    dest="description"/>
+  <copyField source="sequence_id"     dest="description"/>
   
   <!-- Copy (almost) everything into the description field for free
        text searches -->
@@ -164,39 +188,40 @@
 
 
 
-  <!-- Lets start with field types... -->
+  <!-- Field types... -->
   
   <types>
-    <!-- The StrField type is not analyzed, but indexed/stored verbatim.
-         It supports docValues but in that case the field needs to be
-         single-valued and either required or have a default value. -->
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+    <!-- The StrField type is not analyzed, but indexed/stored
+         verbatim. It supports docValues but in that case the field
+         needs to be single-valued and either required or have a
+         default value. -->
+    <fieldType name="string" class="solr.StrField" sortMissingLast="true" omitNorms="true"/>
     
-    <!-- Default numeric field types. For faster range queries, consider
-         the tint/tfloat/tlong/tdouble types. -->
-    <fieldType name="int"    class="solr.TrieIntField"   precisionStep="0" positionIncrementGap="0"/>
-    <fieldType name="long"   class="solr.TrieLongField"  precisionStep="0" positionIncrementGap="0"/>
-    <fieldType name="float"  class="solr.TrieFloatField" precisionStep="0" positionIncrementGap="0"/>
+    <!-- Default numeric field types. For faster range queries,
+         consider the tint/tfloat/tlong/tdouble types. -->
+    <fieldType name="int"    class="solr.TrieIntField"   precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="long"   class="solr.TrieLongField"  precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="float"  class="solr.TrieFloatField" precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
     
-    <!-- Numeric field types that index each value at various levels of
-         precision to accelerate range queries when the number of values
-         between the range endpoints is large.
+    <!-- Numeric field types that index each value at various levels
+         of precision to accelerate range queries when the number of
+         values between the range endpoints is large.
          
          Smaller precisionStep values (specified in bits) will lead to
-         more tokens indexed per value, slightly larger index size, and
-         faster range queries. A precisionStep of 0 disables indexing at
-         different precision levels. -->
-    <fieldType name="tint"   class="solr.TrieIntField"   precisionStep="8" positionIncrementGap="0"/>
-    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" positionIncrementGap="0"/>
+         more tokens indexed per value, slightly larger index size,
+         and faster range queries. A precisionStep of 0 disables
+         indexing at different precision levels. -->
+    <fieldType name="tint"   class="solr.TrieIntField"   precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
+    <fieldType name="tfloat" class="solr.TrieFloatField" precisionStep="8" omitNorms="true" positionIncrementGap="0"/>
     
     <!-- The format for this date field is of the form
-         '1995-12-31T23:59:59Z'. For faster range queries, consider the
-         tdate type. -->
-    <fieldType name="date"   class="solr.TrieDateField"  precisionStep="0"/>
+         '1995-12-31T23:59:59Z'. For faster range queries, consider
+         the tdate type. -->
+    <fieldType name="date"   class="solr.TrieDateField"  precisionStep="0" omitNorms="true" positionIncrementGap="0"/>
     
-    <!-- A Trie based date field for faster date range queries and date
-         faceting. -->
-    <fieldType name="tdate"  class="solr.TrieDateField"  precisionStep="6" positionIncrementGap="0"/>
+    <!-- A Trie based date field for faster date range queries and
+         date faceting. -->
+    <fieldType name="tdate"  class="solr.TrieDateField"  precisionStep="6" omitNorms="true" positionIncrementGap="0"/>
     
     
     
