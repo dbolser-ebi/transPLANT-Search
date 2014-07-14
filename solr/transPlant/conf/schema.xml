@@ -33,10 +33,25 @@
        -->
   
   <fields>
-
-    <!-- This field is required for Solr to work -->
-    <field name="_version_" type="long" indexed="true" stored="true"/>
-
+    
+    <!-- We start with a couple of 'internal' fields. -->
+    
+    <!-- This field is required internally for Solr to work -->
+    <field name="_version_"     type="long"   indexed="true"  stored="true" />
+    
+    <!-- Lets add a "timestamp" field indicating when each document
+         was indexed, just for internal bookkeeping. -->
+    <field name="timestamp"     type="date"   indexed="true"  stored="true"  default="NOW" />
+    
+    
+    
+    <!-- Core type: Database entry -->
+    
+    <!-- We need to store this field because it's used internally by
+         Drupal Apache Solr to identify documents in the results
+         set. See below for how it's populated. -->
+    <field name="id"            type="string" indexed="true"  stored="true"  required="true" />
+    
     <!-- Although the entry_type is specified in the schema document
          as a field of type 'enum', there is no technical need to
          implement it as such in Solr. -->
@@ -50,8 +65,6 @@
     <field name="db_id"         type="string" indexed="false" stored="true"  required="true" />
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false" />
     
-    <field name="id"            type="string" indexed="true"  stored="false" required="true"  />
-    
     <!-- This is the most important field from the free text search
     <field name="description"   type="text_general" multiValued="true"
          point of view. The field is stored for retreival (and as a
@@ -60,7 +73,8 @@
          faceting and free text search. We could add termVectors and
          termPositions for highlighting! -->
     
-    <field name="url"           type="string" indexed="false" stored="true"  required="true"  />
+    <!-- We don't need to index this (see below) -->
+    <field name="url"           type="string" indexed="false" stored="true"  required="true" />
     
     <!-- Fields used for faceting need to be indexed! -->
     <field name="species"       type="string" indexed="true"  stored="false" required="false" />
@@ -124,8 +138,20 @@
     
     
     
-    <!-- Links back to another db_id -->
-    <!-- <field name="db_id_xref"       type="string" indexed="true"  stored="true"   required="false" /> -->
+    <!-- QTL -->
+    
+    
+    
+    <!-- Experiment -->
+    <field name="experiment_type"  type="string" indexed="true"  stored="false" required="false" />
+    
+    
+    
+    <!-- Reaction -->
+    
+    
+    
+    <!-- Other -->
     
     
     
