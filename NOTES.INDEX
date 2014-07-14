@@ -223,6 +223,8 @@ OPT=${common_opt}
 OPT="${OPT}&fieldnames=db_id,entry_type,species,description,url"
 OPT="${OPT}&literal.database_name=Ensembl+Plants"
 
+FILE=../../../Data/EBI/transplant.20131010-fix.tsv
+
 curl "${url}/${core}/update?${OPT}" \
-    --data-binary @"/tmp/transplant.20131010-fix.tsv" \
+    --data-binary @"${FILE}" \
     -H 'Content-type:application/csv'
