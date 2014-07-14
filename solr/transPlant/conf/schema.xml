@@ -190,29 +190,20 @@
   <copyField source="feature_type"    dest="description"/>
   <copyField source="sequence_id"     dest="description"/>
   
-  <!-- Copy (almost) everything into the description field for free
-       text searches -->
-  <copyField source="entry_type"    dest="description"/>
-  <copyField source="database_name" dest="description"/>
-  <copyField source="db_id"         dest="description"/>
-  <!-- <copyField source="db_version"       dest="description"/> -->
-  <copyField source="species"       dest="description"/>
-  <copyField source="sample"        dest="description"/>
+  <copyField source="map"             dest="description"/>
   
-  <copyField source="feature_type"  dest="description"/>
-  <copyField source="sequence_id"   dest="description"/>
-  <!-- <copyField source="sequence_version" dest="description"/> -->
-  <!-- <copyField source="start_position"   dest="description"/> -->
-  <!-- <copyField source="end_position"     dest="description"/> -->
+  <copyField source="authority"       dest="description"/>
   
-  <copyField source="map"           dest="description"/>
-  <!-- <copyField source="map_position"     dest="description"/> -->
+  <copyField source="trait"           dest="description"/>
+  <copyField source="trait_id"        dest="description"/>
+  <copyField source="environment"     dest="description"/>
+  <copyField source="environment_id"  dest="description"/>
+  <copyField source="statistic"       dest="description"/>
+  <copyField source="unit"            dest="description"/>
   
-  <copyField source="authority"     dest="description"/>
+  <copyField source="genotype"        dest="description"/>
   
-  <copyField source="feature_type"  dest="description"/>
-  <copyField source="feature_type"  dest="description"/>
-  <copyField source="feature_type"  dest="description"/>
+  <copyField source="experiment_type" dest="description"/>
   
 
 
