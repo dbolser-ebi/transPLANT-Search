@@ -14,10 +14,10 @@ set -o nounset # set -u
 #url=http://localhost:1234/solr         # V4.4
 
 #url=http://ebi1-249:8983/solr          # V4.0
-#url=http://ebi3-204:1234/solr          # V4.4
+url=http://ebi-204:8983/solr          # V4.4
 
 #url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
-url=http://pweb-2b:8046/solr            # V4.4 (STAGE/LIVE)
+#url=http://pweb-2b:8046/solr            # V4.4 (STAGE/LIVE)
 
 #url=http://ves-ebi-60:8045/solr        # V4.7 (NEW LIVE)
 
@@ -48,13 +48,15 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 ## INDEX EBI:
 core=transPlant-EBI
+rm -rf solr/${core}/data/
 
 for i in ${index_dir}/EBI/transplant*-fix.tsv; do
     echo $i
     
     OPT=${common_opt}
-    OPT="${OPT}&fieldnames=id,obj_type,species,obj_desc,src_url"
-    OPT="${OPT}&literal.provider=Ensembl+Plants"
+    OPT="${OPT}&fieldnames=db_id,entry_type,species,description,url"
+    
+    OPT="${OPT}&literal.database_name=Ensembl+Plants"
     
     ## This fails (when provider = "EBI,Ensembl+Plants")
     #OPT="${OPT}&f.provider.split=true"
@@ -82,7 +84,7 @@ for i in ${index_dir}/EBI/transplant*-fix.tsv; do
     time \
         curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
         -H 'Content-type:application/csv'
-
+    
 done
 echo; echo
 
@@ -90,6 +92,7 @@ echo; echo
 
 ## INDEX IPK
 core=transPlant-IPK
+rm -rf solr/${core}/data/
 
 for i in \
     ${index_dir}/IPK/*.tsv.new \
@@ -99,7 +102,7 @@ for i in \
     OPT=$common_opt
     OPT="${OPT}&header=true"
     OPT="${OPT}&trim=true"
-    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
     
     ## Split the species
     OPT="${OPT}&f.species.split=true"
@@ -117,12 +120,13 @@ echo; echo
 
 ## INDEX MIPS:
 core=transPlant-MIPS
+rm -rf solr/${core}/data/
 
 for i in ${index_dir}/MIPS/*.txt; do
     echo $i
     
     OPT=$common_opt
-    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
     
     ## Run it
     time \
@@ -136,13 +140,14 @@ echo; echo
 
 ## INDEX PAS:
 core=transPlant-PAS
+rm -rf solr/${core}/data/
 
 for i in ${index_dir}/PAS/*.tab; do
     echo $i
     
     OPT=$common_opt
     OPT="${OPT}&header=true"
-    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
     
     ## Run it
     time \
@@ -156,13 +161,14 @@ echo; echo
 
 ## INDEX UGRI:
 core=transPlant-UGRI
+rm -rf solr/${core}/data/
 
 #for i in ${index_dir}/UGRI/Transplant_*.csv; do
 for i in ${index_dir}/UGRI/solr_dump.tsv; do
     echo $i
     
     OPT=$common_opt
-    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
+    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
     
     ## Run it
     time \
@@ -184,14 +190,15 @@ echo DONE
 ## We use something similar to the PAS data...
 
 core=transPlant
+rm -rf solr/${core}/data/
 
 for i in ${index_dir}/null_entry.tsv; do
     echo $i
     
     OPT=$common_opt
     OPT="${OPT}&header=true"
-    OPT="${OPT}&fieldnames=id,obj_type,provider,species,obj_desc,src_url"
-    
+    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
+
     ## Run it
     time \
         curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
@@ -202,29 +209,6 @@ echo; echo
 
 
 
-
-
 ## Wuh?
 set +e
 set +u
-
-
-
-return
-
-## Here are some 'notes' we don't want to execute (hence the return
-## command above).
-
-url=http://ebi-021.ebi.ac.uk:8983/solr
-core=transPlant
-
-common_opt="separator=%09&softCommit=true"
-OPT=${common_opt}
-OPT="${OPT}&fieldnames=db_id,entry_type,species,description,url"
-OPT="${OPT}&literal.database_name=Ensembl+Plants"
-
-FILE=../../../Data/EBI/transplant.20131010-fix.tsv
-
-curl "${url}/${core}/update?${OPT}" \
-    --data-binary @"${FILE}" \
-    -H 'Content-type:application/csv'
