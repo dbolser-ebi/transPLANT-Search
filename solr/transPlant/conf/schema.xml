@@ -140,8 +140,6 @@
     
     <!-- GWAS result -->
     <field name="genotype"         type="string" indexed="true"   stored="false" required="false" />
-    <field name="transformation"   type="string" indexed="true"   stored="false" required="false" />
-    <field name="method"           type="string" indexed="true"   stored="false" required="false" />
     
     
     
