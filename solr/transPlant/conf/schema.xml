@@ -1,36 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<schema name="transplant" version="1.5">
+<schema name="transplant" version="v0.2-pre">
   
   <!-- Define the fields... -->
   
   <!-- Fields are based on the transPLANT integrated search schema
-       v0.1 document -->
+       v0.2-pre document -->
   
   <!-- NOTE: I haven't used docValues (available in Solr since 4.2)
        for the fields that we'll be faceting on, althought this could
        provide a performace advantage in the most recent versions of
        Solr. -->
   
-  <!-- NOTE: All fields are copied into the main description
-       (text_general) field (below) so that free text searches for
-       their values will return meaningfull results, regardless of
-       their use as facets. -->
-  
-  <!-- TODO: What do we need to store? i.e. if a field is being used
-       only for faceting, do we need to store it's values or just
-       simply index them? For now I'm going to just index and see
-       where that gets us...
-       
-       Seems this rule applies just for facet fields, other fields
-       should be stored if you want the value back, even if they are
-       being indexed...
-       
-       So:
-         * used for faceting = true/false,
-         * copied to description = false/true
-       
-       -->
+  <!-- NOTE: (Almost) all fields are copied into the main description
+       field so that free text searches for their values will return
+       meaningfull results, regardless of their use as facets. -->
   
   <fields>
     
