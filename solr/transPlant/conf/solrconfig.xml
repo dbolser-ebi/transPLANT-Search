@@ -36,9 +36,9 @@
       
     </lst>
     
-    <arr name="last-components">
-      <str>spellcheck</str>
-    </arr>
+    <!-- <arr name="last-components"> -->
+    <!--   <str>spellcheck</str> -->
+    <!-- </arr> -->
     
   </requestHandler>
 
