@@ -9,7 +9,7 @@
   <lib dir="../../../solr/contrib/extraction/lib" />
   <lib dir="../../../solr/contrib/dataimporthandler/lib/" regex=".*jar$" />
   
-  <requestHandler name="standard" class="solr.StandardRequestHandler" default="true" />
+  <requestHandler name="standard" class="solr.StandardRequestHandler" />
   
   <requestHandler name="pinkPony" class="solr.SearchHandler" default="true" startup="lazy">
     
