@@ -22,7 +22,18 @@
       <str name="q.op">AND</str>
       
       <!-- Add our shard servers... -->
-      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-PAS,localhost:${jetty.port:8983}/solr/transPlant-UGRI</str>
+      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-URGI,cropnet.pl/solr-transplant-0.2-pre</str>
+      
+      <!-- Shards moved from local cores to remote cores:
+           
+           PAS:
+           cropnet.pl/solr-transplant-0.2-pre
+           localhost:${jetty.port:8983}/solr/transPlant-PAS
+           
+           URGI (note, buggy!):
+           urgi.versailles.inra.fr/solr/transplant-0.2-pre
+           localhost:${jetty.port:8983}/solr/transPlant-URGI
+        -->
       
       <!-- Print a summary of results per shard -->
       <str name="shards.info">true</str>
