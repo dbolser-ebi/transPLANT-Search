@@ -15,6 +15,12 @@
     
     <lst name="defaults">
       
+      <!-- Search the description field by default -->
+      <str name="df">description</str>
+      
+      <!-- join terms with AND by default -->
+      <str name="q.op">AND</str>
+      
       <!-- Add our shard servers... -->
       <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-PAS,localhost:${jetty.port:8983}/solr/transPlant-UGRI</str>
       
