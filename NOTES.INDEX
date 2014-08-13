@@ -160,11 +160,11 @@ echo; echo
 
 
 
-## INDEX UGRI:
-core=transPlant-UGRI
+## INDEX URGI:
+core=transPlant-URGI
 
-#for i in ${index_dir}/UGRI/Transplant_*.csv; do
-for i in ${index_dir}/UGRI/solr_dump.tsv; do
+#for i in ${index_dir}/URGI/Transplant_*.csv; do
+for i in ${index_dir}/URGI/solr_dump.tsv; do
     echo $i
     
     OPT=$common_opt
