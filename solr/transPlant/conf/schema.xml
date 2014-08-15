@@ -63,10 +63,10 @@
          termPositions for highlighting! -->
     <field name="description"   type="t_gen"  indexed="true"  stored="true"  required="true"  multiValued="true"/>
     
-    <!-- We don't need to index this (see below) -->
+    <!-- We don't need to index this (see below). -->
     <field name="url"           type="string" indexed="false" stored="true"  required="true"/>
     
-    <!-- Fields used for faceting need to be indexed! -->
+    <!-- Fields used for faceting need to be indexed, but don't need to be stored. -->
     <field name="species"       type="string" indexed="true"  stored="false" required="false" multiValued="true"/>
     
     <!-- Allow multiple, generic links back to other documents. -->
@@ -80,7 +80,7 @@
     <!-- Sequence feature -->
     
     <!-- The conceptual schema has the 'feature_type' field as
-         mandatory if the entry_type is 'sequence feature'. However,
+         mandatory /if/ the entry_type is 'sequence feature'. However,
          not all documents are sequence features, so we cant simply
          flag this field as 'required' by Solr. The requirement can be
          enforced elsewhere if needed. -->
