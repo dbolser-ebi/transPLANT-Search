@@ -51,6 +51,10 @@
     <field name="db_id"         type="string" indexed="false" stored="true"  required="true"/>
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false"/>
     
+    <!-- Other text fields are also copied to description, but I think
+         need to be independently defined? -->
+    <field name="name"          type="t_gen"  indexed="false" stored="false" required="false"/>
+    
     <!-- This is the most important field from the free text search
          point of view. The field is stored for retreival (and as a
          requirement for highlighting, and is defined as multiValued
@@ -64,10 +68,6 @@
     
     <!-- Fields used for faceting need to be indexed! -->
     <field name="species"       type="string" indexed="true"  stored="false" required="false" multiValued="true"/>
-    
-    <!-- Other text fields are also copied to description, but I think
-         need to be independently defined? -->
-    <field name="sample"        type="t_gen"  indexed="false" stored="false" required="false"/>
     
     <!-- Allow multiple, generic links back to other documents. -->
     <field name="xref"          type="string" indexed="true"  stored="true"  required="false" multiValued="true"/>
@@ -114,10 +114,10 @@
     
     <!-- Phenotype -->
     
-    <field name="trait"            type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true"/>
-    <field name="trait_id"         type="string" indexed="true"   stored="false" required="false" multiValued="true"/>
-    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true"/>
-    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true"/>
+    <field name="trait"            type="t_gen"  indexed="false"  stored="false" required="false"/>
+    <field name="trait_id"         type="string" indexed="true"   stored="false" required="false"/>
+    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false"/>
+    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false"/>
     
     <field name="statistic"        type="string" indexed="false"  stored="true"  required="false"/>
     <field name="unit"             type="string" indexed="false"  stored="true"  required="false"/>
@@ -164,14 +164,13 @@
 
 
 
-  
   <!-- Copy (almost) everything into the description field for
        free-text searches -->
   <copyField source="entry_type"      dest="description"/>
   <copyField source="database_name"   dest="description"/>
   <copyField source="db_id"           dest="description"/>
+  <copyField source="name"            dest="description"/>
   <copyField source="species"         dest="description"/>
-  <copyField source="sample"          dest="description"/>
   
   <copyField source="feature_type"    dest="description"/>
   <copyField source="sequence_id"     dest="description"/>
