@@ -153,20 +153,17 @@
        it will be a required field. -->
   <uniqueKey>id</uniqueKey>
   
-  <!-- Moving these depricated settings to the request handler -->
-  
   <!-- Field for the QueryParser to use when an explicit fieldname is
        absent. Specifying this here simplifes config elsewhere. -->
-  <!-- <defaultSearchField>description</defaultSearchField> -->
+  <defaultSearchField>description</defaultSearchField>
   
   <!-- SolrQueryParser configuration: defaultOperator="AND|OR" -->
-  <!-- <solrQueryParser defaultOperator="AND"/> -->
+  <solrQueryParser defaultOperator="AND"/>
 
 
 
 
 
-  
   <!-- Copy (almost) everything into the description field for
        free-text searches -->
   <copyField source="entry_type"      dest="description"/>

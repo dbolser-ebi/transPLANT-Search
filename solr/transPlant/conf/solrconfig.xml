@@ -15,12 +15,6 @@
     
     <lst name="defaults">
       
-      <!-- Search the description field by default -->
-      <str name="df">description</str>
-      
-      <!-- join terms with AND by default -->
-      <str name="q.op">AND</str>
-      
       <!-- Add our shard servers... -->
       <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-URGI,cropnet.pl/solr-transplant-0.2-pre</str>
       
@@ -30,7 +24,7 @@
            cropnet.pl/solr-transplant-0.2-pre
            localhost:${jetty.port:8983}/solr/transPlant-PAS
            
-           URGI (note, buggy!):
+           URGI (NOTE: Buggy! Problem with the default search field!):
            urgi.versailles.inra.fr/solr/transplant-0.2-pre
            localhost:${jetty.port:8983}/solr/transPlant-URGI
         -->
