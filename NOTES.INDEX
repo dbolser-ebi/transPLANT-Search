@@ -15,10 +15,11 @@ set -o nounset # set -u
 #url=http://localhost:1234/solr         # V4.4
 
 #url=http://ebi1-249:8983/solr          # V4.0
-url=http://ebi-204:8983/solr          # V4.4
+#url=http://ebi-204:8983/solr           # V4.4
+ url=http://ebi4-114:8983/solr           # V4.9.0
 
 #url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
-#url=http://pweb-2b:8046/solr            # V4.4 (STAGE/LIVE)
+#url=http://pweb-2b:8046/solr           # V4.4 (STAGE/LIVE)
 
 #url=http://ves-ebi-60:8045/solr        # V4.7 (NEW LIVE)
 
