@@ -43,10 +43,10 @@
          implement it as such in Solr. -->
     <field name="entry_type" type="string"    indexed="true"  stored="false" required="true"/>
     
-    <!-- Together these three fields define the unique identifier for
-         a given entry, being hashed together using Lookup3Signature
-         into the 'id' field. See the 'dedupe' update request
-         processor in solrconfig.xml. -->
+    <!-- Together these three fields (and entry_type above) define the
+         unique identifier for a given entry, being hashed together
+         using Lookup3Signature into the 'id' field. See the 'dedupe'
+         update request processor in solrconfig.xml. -->
     <field name="database_name" type="string" indexed="true"  stored="false" required="true"/>
     <field name="db_id"         type="string" indexed="false" stored="true"  required="true"/>
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false"/>
@@ -116,8 +116,8 @@
     
     <field name="trait"            type="t_gen"  indexed="false"  stored="false" required="false"/>
     <field name="trait_id"         type="string" indexed="true"   stored="false" required="false"/>
-    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false"/>
-    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false"/>
+    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true"/>
+    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true"/>
     
     <field name="statistic"        type="string" indexed="false"  stored="true"  required="false"/>
     <field name="unit"             type="string" indexed="false"  stored="true"  required="false"/>
