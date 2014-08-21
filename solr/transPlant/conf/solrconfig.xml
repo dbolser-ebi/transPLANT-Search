@@ -5,10 +5,6 @@
   
   <directoryFactory name="DirectoryFactory" class="${solr.directoryFactory:solr.StandardDirectoryFactory}" />
   
-  <!-- These directories are relative to this file's location. -->
-  <lib dir="../../../solr/contrib/extraction/lib" />
-  <lib dir="../../../solr/contrib/dataimporthandler/lib/" regex=".*jar$" />
-  
   <requestHandler name="standard" class="solr.StandardRequestHandler" default="true" />
   
   <requestHandler name="pinkPony" class="solr.SearchHandler" default="true" startup="lazy">
