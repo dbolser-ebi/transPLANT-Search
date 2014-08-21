@@ -1,4 +1,5 @@
 *~
-solr/transPlant*/data
-solr/resource-registry/data
 logs
+solr-webapp/
+solr/resource-registry/data
+solr/transPlant*/data
