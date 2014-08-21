@@ -67,7 +67,7 @@
       <bool name="enabled">true</bool>
       <str name="signatureField">id</str>
       <bool name="overwriteDupes">false</bool>
-      <str name="fields">database_name,db_id,db_version</str>
+      <str name="fields">database_name,entry_type,db_id,db_version</str>
       <str name="signatureClass">solr.processor.Lookup3Signature</str>
     </processor>
     <processor class="solr.LogUpdateProcessorFactory" />
