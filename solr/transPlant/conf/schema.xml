@@ -116,8 +116,8 @@
     
     <field name="trait"            type="t_gen"  indexed="false"  stored="false" required="false"/>
     <field name="trait_id"         type="string" indexed="true"   stored="false" required="false"/>
-    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false"/>
-    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false"/>
+    <field name="environment"      type="t_gen"  indexed="false"  stored="false" required="false" multiValued="true"/>
+    <field name="environment_id"   type="string" indexed="true"   stored="false" required="false" multiValued="true"/>
     
     <field name="statistic"        type="string" indexed="false"  stored="true"  required="false"/>
     <field name="unit"             type="string" indexed="false"  stored="true"  required="false"/>
