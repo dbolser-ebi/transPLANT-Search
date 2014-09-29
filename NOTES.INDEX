@@ -1,12 +1,19 @@
 #! /usr/local/bin/bash
 
-## INDEXING...
+## SHELL SCRIPT FOR INDEXING PARTNER DATA
 
 # Quit the script if *anything* fails!
 set -o errexit # set -e
 
 # Quit the script if we forget to initalize a variatble!
 set -o nounset # set -u
+
+
+
+## POINT AT THE INDEXES
+#index_dir=Data/Indexes
+#index_dir=/mnt/vbox-shared/TransPLANT_Indexes
+index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 
 
@@ -30,12 +37,6 @@ set -o nounset # set -u
 ## Define some options common to all dumps, and add softCommit so that
 ## we don't have to call commit every so often...
 common_opt="separator=%09&softCommit=true"
-
-
-## POINT AT THE INDEXES
-#index_dir=Data/Indexes
-#index_dir=/mnt/vbox-shared/TransPLANT_Indexes
-index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 
 
