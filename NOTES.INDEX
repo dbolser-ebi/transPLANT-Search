@@ -139,6 +139,21 @@ for i in ${index_dir}/MIPS/*.txt; do
 done
 echo; echo
 
+for i in ${index_dir}/MIPS/crowsnest_refs_2014-09-01/*.tsv; do
+    echo $i
+
+    OPT=$common_opt
+    OPT="${OPT}&header=true"
+    OPT="${OPT}&fieldnames=entry_type,database_name,db_id,name,description,url,species,xref,feature_type,sequence_id,start_position,end_position"
+    
+    ## Run it
+    time \
+        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
+        -H 'Content-type:application/csv'
+    
+done
+echo; echo
+
 
 
 ## INDEX PAS:
