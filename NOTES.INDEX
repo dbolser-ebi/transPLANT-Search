@@ -19,18 +19,17 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 
 ## PICK YOUR SERVER (Solr version 4+)
 
-#url=http://localhost:1234/solr         # V4.4
+## Testing on a farm node
+ url=http://ebi1-024:8983/solr
 
-#url=http://ebi1-249:8983/solr          # V4.0
-#url=http://ebi-204:8983/solr           # V4.4
- url=http://ebi4-114:8983/solr           # V4.9.0
+## Local testing
+#url=http://localhost:1234/solr
+#url=http://dbolser-laptop.windows.ebi.ac.uk:1234/solr
 
+## Production 
 #url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
 #url=http://pweb-2b:8046/solr           # V4.4 (STAGE/LIVE)
-
 #url=http://ves-ebi-60:8045/solr        # V4.7 (NEW LIVE)
-
-#url=http://dbolser-laptop.windows.ebi.ac.uk:1234/solr # V4.8 (DEATH)
 
 
 
