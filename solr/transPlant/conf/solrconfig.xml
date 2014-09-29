@@ -12,12 +12,12 @@
     <lst name="defaults">
       
       <!-- Add our shard servers... -->
-      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-URGI,cropnet.pl/solr-transplant-0.2-pre,gwas.gmi.oeaw.ac.at:8983/solr</str>
+      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,localhost:${jetty.port:8983}/solr/transPlant-URGI,urgi.versailles.inra.fr/solr/transplant-0.2-pre,cropnet.pl/solr-transplant-0.2,gwas.gmi.oeaw.ac.at:8983/solr</str>
       
       <!-- Shards moved from local cores to remote cores:
            
            PAS:
-           cropnet.pl/solr-transplant-0.2-pre
+           cropnet.pl/solr-transplant-0.2
            localhost:${jetty.port:8983}/solr/transPlant-PAS
            
            URGI (NOTE: Buggy! Problem with the default search field!):
