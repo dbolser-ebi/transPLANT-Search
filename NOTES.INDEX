@@ -20,7 +20,8 @@ index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
 ## PICK YOUR SERVER (Solr version 4+)
 
 ## Testing on a farm node
- url=http://ebi1-024:8983/solr
+# url=http://ebi1-024:8983/solr
+ url=http://ebi5-232:8983/solr
 
 ## Local testing
 #url=http://localhost:1234/solr
