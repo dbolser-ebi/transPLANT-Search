@@ -2,7 +2,7 @@
 
 <!-- Note the schema version attribute is for Solr -->
 
-<schema name="transplant v0.2-pre" version="1.5">
+<schema name="transplant v0.2" version="1.5">
   
   <!-- Define the fields... -->
   
@@ -47,7 +47,7 @@
          unique identifier for a given entry, being hashed together
          using Lookup3Signature into the 'id' field. See the 'dedupe'
          update request processor in solrconfig.xml. -->
-    <field name="database_name" type="string" indexed="true"  stored="false" required="true"/>
+    <field name="database_name" type="string" indexed="true"  stored="true"  required="true"/>
     <field name="db_id"         type="string" indexed="false" stored="true"  required="true"/>
     <field name="db_version"    type="int"    indexed="false" stored="true"  required="false"/>
     
@@ -66,8 +66,10 @@
     <!-- We don't need to index this (see below). -->
     <field name="url"           type="string" indexed="false" stored="true"  required="true"/>
     
-    <!-- Fields used for faceting need to be indexed, but don't need to be stored. -->
-    <field name="species"       type="string" indexed="true"  stored="false" required="false" multiValued="true"/>
+    <!-- Fields used for faceting need to be indexed, but don't need
+         to be stored. Any fields for which the value is needed in the
+         UI for any other reason than faceting must be stored. -->
+    <field name="species"       type="string" indexed="true"  stored="true"  required="false" multiValued="true"/>
     
     <!-- Allow multiple, generic links back to other documents. -->
     <field name="xref"          type="string" indexed="true"  stored="true"  required="false" multiValued="true"/>
