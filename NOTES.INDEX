@@ -59,9 +59,9 @@ for i in ${index_dir}/EBI/transplant*-fix.tsv; do
     echo $i
     
     OPT=${common_opt}
-    OPT="${OPT}&fieldnames=db_id,entry_type,species,description,url"
+    OPT="${OPT}&fieldnames=entry_type,database_name,db_id,db_version,name,description,url,species,feature_type,sequence_id,start_position,end_position"
     
-    OPT="${OPT}&literal.database_name=Ensembl+Plants"
+    #OPT="${OPT}&literal.database_name=Ensembl+Plants"
     
     ## This fails (when provider = "EBI,Ensembl+Plants")
     #OPT="${OPT}&f.provider.split=true"
