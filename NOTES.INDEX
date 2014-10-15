@@ -56,35 +56,11 @@ common_opt="separator=%09&softCommit=true"
 ## INDEX EBI:
 core=transPlant-EBI
 
-for i in ${index_dir}/EBI/transplant*-fix.tsv; do
+for i in ${index_dir}/EBI/transplant/transplant.24-v0.2.tsv; do
     echo $i
     
     OPT=${common_opt}
     OPT="${OPT}&fieldnames=entry_type,database_name,db_id,db_version,name,description,url,species,feature_type,sequence_id,start_position,end_position"
-    
-    #OPT="${OPT}&literal.database_name=Ensembl+Plants"
-    
-    ## This fails (when provider = "EBI,Ensembl+Plants")
-    #OPT="${OPT}&f.provider.split=true"
-    #OPT="${OPT}&f.provider.separator=,"
-    
-    ## Nasty remapping...
-    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=tRNA_pseudogene:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=miRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=ncRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=snoRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=rRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=snRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=SRP_RNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=antisense:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=misc_RNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=P_RNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=RNase_MRP_RNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=tmRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
-    #OPT="${OPT}&f.obj_type.map=tRNA:ncRNA"
     
     ## Run it
     time \
@@ -205,6 +181,8 @@ echo DONE
 ## so that it reports it's fields correctly...
 
 ## We use something similar to the PAS data...
+
+## NOT SURE THAT THIS IS STILL NEEDED IN THE CURRENT SOLR VERSION!
 
 core=transPlant
 
