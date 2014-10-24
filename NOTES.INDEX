@@ -9,28 +9,24 @@ set -o errexit # set -e
 set -o nounset # set -u
 
 
-
 ## POINT AT THE INDEXES
-#index_dir=Data/Indexes
-#index_dir=/mnt/vbox-shared/TransPLANT_Indexes
 index_dir=/nfs/production/panda/ensemblgenomes/data/Plants/TransPLANT/Indexes
-
 
 
 ## PICK YOUR SERVER (Solr version 4+)
 
 ## Testing on a farm node
 # url=http://ebi1-024:8983/solr
- url=http://ebi5-232:8983/solr
+# url=http://ebi5-232:8983/solr
 
 ## Local testing
 #url=http://localhost:1234/solr
 #url=http://dbolser-laptop.windows.ebi.ac.uk:1234/solr
 
-## Production 
-#url=http://pweb-2b:8045/solr           # V4.0-BETA (LIVE)
-#url=http://pweb-2b:8046/solr           # V4.4 (STAGE/LIVE)
-#url=http://ves-ebi-60:8045/solr        # V4.7 (NEW LIVE)
+## Production
+#url=http://pweb-2b:8045/solr
+#url=http://pweb-2b:8046/solr
+ url=http://ves-ebi-60:8045/solr
 
 
 
@@ -56,7 +52,7 @@ common_opt="separator=%09&softCommit=true"
 ## INDEX EBI:
 core=transPlant-EBI
 
-for i in ${index_dir}/EBI/transplant/transplant.24-v0.2.tsv; do
+for i in ${index_dir}/EBI/transplant.24-v0.2.tsv; do
     echo $i
     
     OPT=${common_opt}
@@ -184,25 +180,26 @@ echo DONE
 
 ## NOT SURE THAT THIS IS STILL NEEDED IN THE CURRENT SOLR VERSION!
 
-core=transPlant
-
-for i in ${index_dir}/null_entry.tsv; do
-    echo $i
-    
-    OPT=$common_opt
-    OPT="${OPT}&header=true"
-    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
-
-    ## Run it
-    time \
-        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
-        -H 'Content-type:application/csv'
-    
-done
-echo; echo
+#core=transPlant
+#
+#for i in ${index_dir}/null_entry.tsv; do
+#    echo $i
+#    
+#    OPT=$common_opt
+#    OPT="${OPT}&header=true"
+#    OPT="${OPT}&fieldnames=db_id,entry_type,database_name,species,description,url"
+#
+#    ## Run it
+#    time \
+#        curl "${url}/${core}/update?${OPT}" --data-binary @"${i}" \
+#        -H 'Content-type:application/csv'
+#    
+#done
+#echo; echo
 
 
 
 ## Wuh?
 set +e
 set +u
+
