@@ -43,6 +43,13 @@ common_opt="separator=%09&softCommit=true"
 ## The simple way to delete an index is (typically) just:
 #rm -rf solr/${core}/data/
 
+## I gave up on deleting via solr, but it's actually pretty easy, for
+## example:
+
+# curl "${url}/${core}/update?commit=true" \
+#     -H 'Content-type:application/xml' \
+#     -d '<DELETE><QUERY>database_name:GEBIS</QUERY></DELETE>'
+
 ## Deleting the data directory on a runnin instance will probably fail
 ## (due to NFS locks). Note, you should delete and then restart solr
 ## after changing the schema for any core!
