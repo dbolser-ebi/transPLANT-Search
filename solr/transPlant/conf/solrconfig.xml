@@ -11,8 +11,9 @@
     
     <lst name="defaults">
       
-      <!-- Add our shard servers... -->
-      <str name="shards">localhost:${jetty.port:8983}/solr/transPlant-EBI,localhost:${jetty.port:8983}/solr/transPlant-IPK,localhost:${jetty.port:8983}/solr/transPlant-MIPS,urgi.versailles.inra.fr/solr/URGI,cropnet.pl/solr-transplant-0.2,gwas.gmi.oeaw.ac.at:8983/solr</str>
+      <!-- Add our shard servers... 
+        transplant.shards is defined in core.properties  -->
+      <str name="shards">${transplant.shards}</str>
       
       <!-- Shards moved from local cores to remote cores:
            
@@ -57,6 +58,40 @@
     <lst name="defaults">
       <str name="update.chain">dedupe</str>
     </lst>
+  </requestHandler>
+
+  <requestHandler name="/select" class="solr.SearchHandler" default="false">
+    <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <int name="rows">10</int>
+       <str name="df">description</str>
+    </lst>
+  </requestHandler>
+
+    <!-- Terms Component
+       http://wiki.apache.org/solr/TermsComponent
+       A component to return terms and document frequency of those
+       terms
+    -->
+  <searchComponent name="terms" class="solr.TermsComponent"/>
+
+  <!-- A request handler for demonstrating the terms component -->
+  <requestHandler name="/terms" class="solr.SearchHandler" startup="lazy">
+     <lst name="defaults">
+      <bool name="terms">true</bool>
+      <bool name="distrib">true</bool><!-- Enable distribution of queries to shards -->
+      <str name="terms.fl">description</str><!-- Specifies the field from which to retrieve terms. -->
+      <int name="terms.limit">10</int><!-- Specifies the maximum number of terms to return. The default is 10. If the limit is set to a number
+less than 0, then no maximum limit is enforced. Although this is not required, either this parameter
+or terms.upper must be defined. -->
+      <int name="terms.mincount">10</int><!-- Specifies the minimum document frequency to return in order for a term to be included in a query
+response. Results are inclusive of the mincount. -->
+      <str name="shards">${transplant.shards}</str>
+      <str name="shards.qt">/terms</str>
+    </lst>     
+    <arr name="components">
+      <str>terms</str>
+    </arr>
   </requestHandler>
   
   <updateRequestProcessorChain name="dedupe">
