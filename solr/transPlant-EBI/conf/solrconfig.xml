@@ -26,7 +26,15 @@
       <str name="update.chain">dedupe</str>
     </lst>
   </requestHandler>
-  
+
+  <requestHandler name="/select" class="solr.SearchHandler" default="false">
+    <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <int name="rows">10</int>
+       <str name="df">description</str>
+    </lst>
+  </requestHandler>
+
     <!-- Terms Component
        http://wiki.apache.org/solr/TermsComponent
        A component to return terms and document frequency of those
@@ -34,11 +42,12 @@
     -->
   <searchComponent name="terms" class="solr.TermsComponent"/>
 
-  <!-- A request handler for demonstrating the terms component -->
   <requestHandler name="/terms" class="solr.SearchHandler" startup="lazy">
      <lst name="defaults">
       <bool name="terms">true</bool>
-      <bool name="distrib">true</bool>
+      <str name="terms.fl">description</str>
+      <int name="terms.limit">10</int>
+      <int name="terms.mincount">10</int>
     </lst>     
     <arr name="components">
       <str>terms</str>
