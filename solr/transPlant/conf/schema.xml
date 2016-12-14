@@ -49,7 +49,7 @@
          update request processor in solrconfig.xml. -->
     <field name="database_name" type="string" indexed="true"  stored="true"  required="true"/>
     <field name="db_id"         type="string" indexed="false" stored="true"  required="true"/>
-    <field name="db_version"    type="int"    indexed="false" stored="true"  required="false"/>
+    <field name="db_version"    type="string"    indexed="false" stored="true"  required="false"/>
     
     <!-- Other text fields are also copied to description, but I think
          need to be independently defined? -->
